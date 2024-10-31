@@ -1,0 +1,22 @@
+## .screenrc
+
+# keine Start-Message
+  startup_message	off
+
+# Nethack Nachrichten
+  nethack		on
+
+# Shell festlegen (experimental)
+  shell			/usr/bin/bash
+
+# Charset auf deutsch stellen (experimental)
+  termcap hp700 ’XC=B\E(K%\E(B,\304[,\326\\\\,\334]’
+
+# backticks sind scripte, die in caption- und hardstatus-lines eingebaut werden koennen
+# Syntax
+# backtick id lifespan autorefresh cmd arg
+  backtick	1 2 1 /var/home/igby/bin/screen-load.sh
+# Fussleisten
+  caption	always "%{= Wr} [ %=%{K}%?%-Lw%?%{r}(%{k}%n*%f %t%?(%u)%?%{r})%{K}%?%+Lw%?%?%= %{r}]%{r}[%{k}%c%{r}] "
+  hardstatus	alwayslastline "%{bW} [Host: %{bY}%H%{bW}] [User: %{bY}$LOGNAME%{bW}] %= "
+#  [load avarage: %{bY}%1`%{bW}]

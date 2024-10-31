@@ -9,6 +9,7 @@ Joa, wenn ich Zeit und Lust habe.
 
 ## Checklist
 Sachen, die noch fehlen:
-- [ ]  fastfetch config
-- [ ] zsh configs
-- [ ] screen config
+- [ ] fastfetch config
+- [x] zsh configs
+- [x] screen config
+- [ ] moc

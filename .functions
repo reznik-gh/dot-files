@@ -1,0 +1,71 @@
+## .functions
+
+## extract: extract of compressed-files
+extract()
+{
+  if [ -f $1 ] ; then
+    case $1 in
+        *.tar.bz2) tar xvjf $1 ;;
+        *.tar.gz) tar xvzf $1 ;;
+        *.bz2) bunzip2 $1 ;;
+        *.rar) unrar x $1 ;;
+        *.gz) gunzip $1 ;;
+        *.tar) tar xvf $1 ;;
+        *.tbz2) tar xvjf $1 ;;
+        *.tgz) tar xvzf $1 ;;
+        *.zip) unzip $1 ;;
+        *.Z) uncompress $1 ;;
+        *.7z) 7z x $1 ;;
+        *) echo "'$1' cannot be extracted via >extract<" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+## Show the plain IP
+myip()
+{
+  # hardcoded networking device
+  # need to be fixed ^^
+  DEVICE="eth0"
+
+  case "$1" in
+      '-4') IPADDR="$(ip -4 addr show $DEVICE | grep inet | cut -d t -f2 | cut -d / -f1)" ;;
+      '-inet') IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com) ;;
+      '-6')
+          IPADDR="$(ip -6 addr show $DEVICE | grep inet | cut -d 6 -f2)"
+          IPADDR="${IPADDR%?}" ;;
+      '-h')
+          echo "shows your current IP"
+          echo "-4 for IPv4"
+          echo "-inet global IPv4"
+          echo "-6 for IPv6" 
+          exit 0 ;;
+  esac
+
+  echo "$IPADDR"
+}
+
+## Downloads videos with youtube-dl and saves them in a given directory
+ytdl()
+{
+  VTITLE=$(youtube-dl $1 --get-title)
+  VFORMAT=$(youtube-dl $1 -F | grep best | cut -c 1-3)
+  # set your default download dirctory here
+  # default: $HOME
+  WORKDIR=$HOME
+
+  cd $WORKDIR
+  youtube-dl $1 -f $VFORMAT
+  cd - >> /dev/null
+  notify-send "$VTITLE" "Download abgeschlossen"
+}
+
+## Repeat the last command with sudo
+justdoit()
+{
+  set : `history 2 | head -1`
+  shift 2;
+  sudo /bin/bash -c "$*"
+} 
